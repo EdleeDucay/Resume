@@ -1,0 +1,32 @@
+name: Build Resume
+
+on:
+  push:
+    branches: [master]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Up Git Repository
+        uses: actions/checkout@v2
+
+      - name: Compile LaTeX Document
+        uses: dante-ev/latex-action@latest
+        with:
+          root_file: Resume_EdleeDucay.tex
+          compiler: pdflatex
+          args: -interaction=nonstopmode -shell-escape
+
+      - name: Upload Updated Resume
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+        run: |
+          curl -X PUT -H "authorization: $API_KEY" -F "resume=@Resume_EdleeDucay.pdf" https://api.edleeducay.com/portfolio/resume
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Resume
+          path: Resume_EdleeDucay.pdf
