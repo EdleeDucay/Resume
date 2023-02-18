@@ -1,3 +1,3 @@
 # Resume
 
-![resume](https://api.adrianleung.dev/resume?image=png)
+![resume](https://api.edleeducay.com/portfolio/resume?image=png)
